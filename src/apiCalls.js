@@ -5,14 +5,14 @@ export const getOrders = () => {
 
 export const postOrders = async (newOrder) => {
   try {
-    const response = fetch('http://localhost:3001/api/v1/orders', {
+    const response = await fetch('http://localhost:3001/api/v1/orders', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(newOrder)
     })
-    const data = response.json()
+    const data = await response.json()
     return data
   } catch(error) {
     return error

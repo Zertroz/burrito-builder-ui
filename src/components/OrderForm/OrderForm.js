@@ -5,14 +5,14 @@ function OrderForm({renderOrders}) {
   const [name, setName] = useState('')
   const [ingredients, setIngredients] = useState([])
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const newOrder = {
       id: Date.now(),
       name: name,
       ingredients: ingredients
     };
-    postOrders(newOrder);
+    await postOrders(newOrder);
     clearInputs();
     renderOrders();
   }

@@ -8,7 +8,9 @@ function App() {
   const [orders, setOrders] = useState([]);
   
   const renderOrders = async () => {
+    console.log(orders)
     const response = await getOrders()
+    console.log(orders)
     setOrders(response.orders)
   }
 
