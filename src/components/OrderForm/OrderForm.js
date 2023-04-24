@@ -1,55 +1,58 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { postOrders } from '../../apiCalls';
 
-class OrderForm extends Component {
-  constructor(props) {
-    super();
-    this.props = props;
-    this.state = {
-      name: '',
-      ingredients: []
-    };
-  }
+function OrderForm({renderOrders}) {
+  const [name, setName] = useState('')
+  const [ingredients, setIngredients] = useState([])
 
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    this.clearInputs();
+    const newOrder = {
+      id: Date.now(),
+      name: name,
+      ingredients: ingredients
+    };
+    postOrders(newOrder);
+    clearInputs();
+    renderOrders();
   }
 
-  clearInputs = () => {
-    this.setState({name: '', ingredients: []});
+  const clearInputs = () => {
+    setName('')
+    setIngredients([])
   }
 
-  render() {
-    const possibleIngredients = ['beans', 'steak', 'carnitas', 'sofritas', 'lettuce', 'queso fresco', 'pico de gallo', 'hot sauce', 'guacamole', 'jalapenos', 'cilantro', 'sour cream'];
-    const ingredientButtons = possibleIngredients.map(ingredient => {
-      return (
-        <button key={ingredient} name={ingredient} onClick={e => this.handleIngredientChange(e)}>
-          {ingredient}
-        </button>
-      )
-    });
-
+  const possibleIngredients = ['beans', 'steak', 'carnitas', 'sofritas', 'lettuce', 'queso fresco', 'pico de gallo', 'hot sauce', 'guacamole', 'jalapenos', 'cilantro', 'sour cream'];
+  const ingredientButtons = possibleIngredients.map(ingredient => {
     return (
-      <form>
-        <input
-          type='text'
-          placeholder='Name'
-          name='name'
-          value={this.state.name}
-          onChange={e => this.handleNameChange(e)}
-        />
-
-        { ingredientButtons }
-
-        <p>Order: { this.state.ingredients.join(', ') || 'Nothing selected' }</p>
-
-        <button onClick={e => this.handleSubmit(e)}>
-          Submit Order
-        </button>
-      </form>
+      <button key={ingredient} name={ingredient} value={ingredient} onClick={e => {
+        e.preventDefault()
+        setIngredients([...ingredients, e.target.value])
+        }}>
+        {ingredient}
+      </button>
     )
-  }
+  });
+
+  return (
+    <form>
+      <input
+        type='text'
+        placeholder='Name'
+        name='name'
+        value={name}
+        onChange={e => setName(e.target.value)}
+      />
+
+      { ingredientButtons }
+
+      <p>Order: { ingredients.join(', ') || 'Nothing selected' }</p>
+
+      <button onClick={e => handleSubmit(e)}>
+        Submit Order
+      </button>
+    </form>
+  )
 }
 
 export default OrderForm;
