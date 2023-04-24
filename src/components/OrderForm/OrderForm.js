@@ -2,19 +2,28 @@ import React, { useState } from 'react';
 import { postOrders } from '../../apiCalls';
 
 function OrderForm({renderOrders}) {
-  const [name, setName] = useState('')
-  const [ingredients, setIngredients] = useState([])
+  const [name, setName] = useState('');
+  const [ingredients, setIngredients] = useState([]);
+  const [error, setError] = useState('');
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const newOrder = {
-      id: Date.now(),
-      name: name,
-      ingredients: ingredients
-    };
-    await postOrders(newOrder);
-    clearInputs();
-    renderOrders();
+    if (!name && ingredients.length === 0) {
+      setError('Please fill out your order.')
+    } else if (ingredients.length === 0) {
+      setError('Please select ingredients.');
+    } else if (!name) {
+      setError('Please input a name.');
+    } else {
+      const newOrder = {
+        id: Date.now(),
+        name: name,
+        ingredients: ingredients
+      };
+      await postOrders(newOrder);
+      clearInputs();
+      renderOrders();
+    }
   }
 
   const clearInputs = () => {
@@ -45,7 +54,7 @@ function OrderForm({renderOrders}) {
       />
 
       { ingredientButtons }
-
+      {error && <p>{error}</p>}
       <p>Order: { ingredients.join(', ') || 'Nothing selected' }</p>
 
       <button onClick={e => handleSubmit(e)}>
