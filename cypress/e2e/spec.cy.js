@@ -7,11 +7,13 @@ describe('User Flows', () => {
     .visit('http://localhost:3000/')
   })
 
+  // Page load
   it('Should display orders', () => {
     cy.get('h1').should('contain', 'Burrito Builder')
     .get('.order').should('have.length', 1)
   })
 
+  // Creating an order
   it('Should allow a user to create an order', () => {
     cy.get('input').type('Kass')
     .get('button[name="beans"]').click()
@@ -38,6 +40,7 @@ describe('User Flows', () => {
     .get('.order').should('have.length', 2)
   })
 
+  // Attempting to create an order but missing inputs.
   it('Should give an error when the form is unfilled', () => {
     cy.get('button[name="submit"]').click()
     .get('.error').should('contain', 'Please fill out your order.')
