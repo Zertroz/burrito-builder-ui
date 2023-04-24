@@ -2,4 +2,10 @@
   "id": 1,
   "name": "Pat",
   "ingredients": ["beans", "lettuce", "carnitas", "queso fresco", "jalapeno"]
-}]}
+},
+  {
+    "id": 2,
+    "name": "Kass",
+    "ingredients": ["beans", "steak"]
+  }
+]}

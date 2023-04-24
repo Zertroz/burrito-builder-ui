@@ -27,7 +27,7 @@ function App() {
         <h1>Burrito Builder</h1>
         <OrderForm renderOrders={renderOrders}/>
       </header>
-      {error && <p>{error}</p>}
+      {error && <p>{error.status}</p>}
       <Orders orders={orders}/>
     </main>
   );

@@ -54,10 +54,10 @@ function OrderForm({renderOrders}) {
       />
 
       { ingredientButtons }
-      {error && <p>{error}</p>}
+      {error && <p className='error'>{error}</p>}
       <p>Order: { ingredients.join(', ') || 'Nothing selected' }</p>
 
-      <button onClick={e => handleSubmit(e)}>
+      <button name='submit' onClick={e => handleSubmit(e)}>
         Submit Order
       </button>
     </form>
